@@ -1,0 +1,20 @@
+<!doctype html>
+<html ng-app = 'app'>
+    <head>
+        <meta charset="utf-8">
+        <title>Test</title> 
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
+        <script type="text/javascript" src="main.js"></script>
+    </head>
+    <body>
+        <div ng-controller= "itemList">
+           <ul>
+               <li ng-repeat = "item in items | orderBy:sortField">
+                   <!-- {{ today | date : "dd.MM.y HH:mm" }} -->
+                    <p> {{item.name + ' '+ item.number + ' '}} {{item.date | date : "dd.MM.y HH:mm" }} </p><button ng-click = 'itemCopy(item.name, item.number, todayDate)'> copy </button>
+                    
+               </li>
+           </ul>
+        </div>      
+    </body>
+</html>
