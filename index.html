@@ -3,16 +3,18 @@
     <head>
         <meta charset="utf-8">
         <title>Test</title> 
+        <link rel="stylesheet" type="text/css" href="styles.css">
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
         <script type="text/javascript" src="main.js"></script>
     </head>
     <body>
         <div ng-controller= "itemList">
-           <ul>
+           <input ng-model = "newItem" placeholder="Enter item name"> <button ng-click = 'itemAdd(newItem, todayDate)'> Add </button>
+            <ul>
                <li ng-repeat = "item in items | orderBy:sortField">
-                   <!-- {{ today | date : "dd.MM.y HH:mm" }} -->
-                    <p> {{item.name + ' '+ item.number + ' '}} {{item.date | date : "dd.MM.y HH:mm" }} </p><button ng-click = 'itemCopy(item.name, item.number, todayDate)'> copy </button>
-                    
+                    <p> {{item.name + ' '+ item.number + ' '}} {{item.date | date : "dd.MM.y HH:mm" }} </p> 
+                    <button ng-click = 'itemAdd(item.name, todayDate)'> copy </button>
+                    <button ng-click = 'removeItem(item)'> Delete </button>
                </li>
            </ul>
         </div>      

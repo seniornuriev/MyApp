@@ -6,29 +6,29 @@ app.controller('itemList', function($scope){
 
     $scope.items = [
         {'name': 'item',
-         'number': 9,
          'date': new Date(2019, 01, 21, 23, 20)},
          
         {'name': 'item',
-        'number': 4,
         'date' : new Date(2019, 01, 21, 23, 26)},
 
         {'name': 'item',
-         'number': 3,
          'date': new Date(2019, 01, 21, 23, 24)},
     ];
 
-    $scope.sortField = 'date';
+    $scope.sortField = 'name';
 
-    $scope.itemCopy = function(name, number, date){
-        
-        
+    $scope.itemAdd = function(name, date){
         var newItem = {
             'name' : name,
-            'number' : number,
             'date' : date
         };
         console.log(newItem);
         $scope.items.push(newItem);
+    }
+
+    $scope.removeItem = function(item){
+        var idx = $scope.items.indexOf(item);
+        console.log(idx);
+        $scope.items.splice(idx, 1);
     }
 });
