@@ -1,34 +1,85 @@
-var app = angular.module('app',[]); 
+var app = angular.module('app', ['ui.router', 'ngMockE2E']);
 
-app.controller('itemList', function($scope){
+app.config(function($stateProvider, $urlRouterProvider) {
+    'ui.router', 
+    $stateProvider
+        .state('editor',{
+            url: '/',
+            templateUrl: 'editor.html'
+        })
+        .state('preview',{
+            url: '/preview',
+            templateUrl: 'preview.html'
+        })
 
-    $scope.todayDate = new Date();
+    $urlRouterProvider.otherwise('index.html');
 
-    $scope.items = [
-        {'name': 'item',
-         'date': new Date(2019, 01, 21, 23, 20)},
-         
-        {'name': 'item',
-        'date' : new Date(2019, 01, 21, 23, 26)},
+});
 
-        {'name': 'item',
-         'date': new Date(2019, 01, 21, 23, 24)},
-    ];
-
-    $scope.sortField = 'name';
-
-    $scope.itemAdd = function(name, date){
-        var newItem = {
-            'name' : name,
-            'date' : date
-        };
-        console.log(newItem);
-        $scope.items.push(newItem);
+app.run(function ($httpBackend) {
+  var items = [
+    {
+      name: 'item 1',
+      date: '2019.12.21 18:46'
+    },
+    {
+      name: 'item 2',
+      date: '2018.12.21 18:46'
     }
+  ];
 
-    $scope.removeItem = function(item){
+  $httpBackend.whenGET('http://localhost:80/items').respond(200, items);
+
+  $httpBackend.whenPOST('http://localhost:80/items').respond(function (method, url, data) {
+    var result = JSON.parse(data);
+    items.push(result);
+    return [200, result];
+  });
+
+
+});
+
+app.controller('mainCtrl', function ($http, $scope) {
+  
+  $scope.todayDate = new Date();
+  $scope.sortField = 'date';
+
+  $http.get('http://localhost:80/items')
+    .success(function (result) {
+      console.log('sucess', result);
+      $scope.items = result;
+    })
+    .error(function (result) {
+      console.log('error');
+    });
+
+  $scope.addItem = function (item, todayDate) {
+    console.log(item, todayDate);
+    var newitem = {
+      name: item,
+      date: todayDate
+    }
+    $http.post('http://localhost:80/items', newitem)
+      .success(function (result) {
+        console.log('item successfully saved to backend');
+        $scope.items.push(newitem);
+        $scope.newitem = null;
+      })
+      .error(function (result) {
+        console.log('Error in item post');
+      });
+  };
+
+  $scope.removeItem = function (item) {
+    $http.post('http://localhost:80/items', item)
+      .success(function (result) {
+        console.log('item successfully removed from backend');
         var idx = $scope.items.indexOf(item);
-        console.log(idx);
         $scope.items.splice(idx, 1);
-    }
+        })
+      .error(function (result) {
+        console.log('Error in item post');
+      });
+  };
+
 });
