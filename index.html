@@ -8,22 +8,14 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.8/angular-ui-router.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="main.js"></script>
+  <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-  <a ui-sref="editor">Editor</a>
-  <a ui-sref="preview">Preview</a>    
-  <main ui-view>
-
-  </main ui-view>   
-  <!-- <div ng-controller= "mainCtrl">  
-      <input ng-model = "newItem" placeholder="Enter item name"> <button ng-click = 'addItem(newItem, todayDate)'> Add </button>
-      <ul>
-          <li ng-repeat = "item in items | orderBy:sortField">
-              <p> {{item.name + ' '+ item.number + ' '}} {{item.date | date : "dd.MM.y HH:mm" }} </p> 
-              <button ng-click = 'addItem(item.name, todayDate)'> <i class="glyphicon glyphicon-duplicate"></i> </button>
-              <button ng-click = 'removeItem(item)'> <i class="glyphicon glyphicon-trash"></i> </button>
-          </li>
-      </ul>
-  </div>   -->
+  
+  <div class="reference">
+    <a ui-sref="editor">Editor</a><a ui-sref="preview">Preview</a>  
+  </div>  
+  <ui-view>
+  </ui-view>   
 </body>
 </html>

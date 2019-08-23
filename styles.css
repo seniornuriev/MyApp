@@ -1,0 +1,96 @@
+.reference{
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    width: 100%;
+    margin: 0 auto;
+    border-bottom: 1px solid black;
+}
+input{  
+    margin-top: 10px;
+    width: 90%;
+}
+
+body{
+    width: 1080px;
+    margin: 50px;
+}
+
+.reference a{
+    color: black;
+    border-radius: 10px 10px 0px 0px;
+    margin: 0;
+    padding: 10px 100px 10px 100px;
+    border: 1px solid black;
+}
+
+.addButton{
+    margin-left: 1%;
+    width: 8%;
+    border-radius: 3px;
+    padding: 2px 9px;
+}
+
+.editorView, .preView{
+    padding-left: 0px;
+ }
+
+li{
+    justify-content: space-between;
+    border-bottom: 1px solid black;
+    padding-top: 15px; 
+    height: auto;
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+}
+
+.preView li{
+    justify-content: space-around;
+}
+
+.editorView a{
+    cursor: pointer;
+    color: black;
+    height: 25px;
+    border: none;
+    border-color: white;
+    margin: 0px 5px;
+}
+
+.preView a{
+    cursor: pointer;
+    color: black;
+    height: 25px;
+    border: none;
+    border-color: white;
+    margin: 0px 5px;
+} 
+
+.preView p{
+    flex-grow: 1;
+}
+
+span {
+    width: 360px; 
+}
+
+.show{
+    display: block;
+    border: 1px solid black;
+    list-style: none;
+    display: block;
+    margin: 0px;
+    padding: 0px;
+    border: 1px solid black;
+}
+
+.show li{
+    border: none;
+}
+
+.preView table{
+    border-bottom: 1px solid black;
+    margin-top: 10px;
+    width: 100%;
+}

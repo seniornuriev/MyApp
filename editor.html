@@ -1,10 +1,10 @@
-<div ng-controller= "mainCtrl">  
-    <input ng-model = "newItem" placeholder="Enter item name"> <button ng-click = 'addItem(newItem, todayDate)'> Add </button>
-    <ul>
+<div ng-controller= "editorCtrl">  
+    <input  ng-model = "newItem" placeholder="Enter item name"> <button class = "addButton" ng-click = 'addItem(newItem, todayDate)'> Add </button>
+    <ul class="editorView"> 
         <li ng-repeat = "item in items | orderBy:sortField">
-            <p> {{item.name + ' '+ item.number + ' '}} {{item.date | date : "dd.MM.y HH:mm" }} </p> 
-            <button ng-click = 'addItem(item.name, todayDate)'> <i class="glyphicon glyphicon-duplicate"></i> </button>
-            <button ng-click = 'removeItem(item)'> <i class="glyphicon glyphicon-trash"></i> </button>
+            <p> {{item.name}}</p> 
+            <div style="float: right;"><a ng-click = 'addItem(item.name, todayDate)'>  <i class="glyphicon glyphicon-duplicate" ></i> </a>
+            <a ng-click = 'removeItem(item)'> <i class="glyphicon glyphicon-trash" aria-hidden="true"></i> </a></div> 
         </li>
     </ul>
 </div>  

@@ -1,1 +1,18 @@
-<h3>That preview window</h3>
+<div ng-controller= "previewCtrl">  
+    <ul class="preView">
+        <table>
+            <tr>
+                <td>Name</td>
+                <td>Date</td>
+            </tr>
+        </table>
+        <li ng-repeat = "item in items">
+            <p> {{item.name + ' '+ item.number + ' '}}</p> 
+            <p style="flex-grow: 0;"> {{item.date | date : "dd.MM.y HH:mm" }} <a ng-click="hideMenu = !hideMenu"><i class="glyphicon glyphicon-option-vertical"></i></a> </p> 
+            <ul ng-show="hideMenu" class="show">
+                <li> <a ng-click = 'swapItems(item, "top")'> <i class=""></i> top </a></li>
+                <li> <a ng-click = 'swapItems(item, "bottom")'> <i class=""></i> bottom </a></li>
+            </ul>
+        </li>
+    </ul>
+</div>  

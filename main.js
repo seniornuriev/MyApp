@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ui.router', 'ngMockE2E']);
+var app = angular.module('app', ['ui.router']);
 
 app.config(function($stateProvider, $urlRouterProvider) {
     'ui.router', 
@@ -16,70 +16,75 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
 });
 
-app.run(function ($httpBackend) {
-  var items = [
-    {
-      name: 'item 1',
-      date: '2019.12.21 18:46'
-    },
-    {
-      name: 'item 2',
-      date: '2018.12.21 18:46'
-    }
-  ];
-
-  $httpBackend.whenGET('http://localhost:80/items').respond(200, items);
-
-  $httpBackend.whenPOST('http://localhost:80/items').respond(function (method, url, data) {
-    var result = JSON.parse(data);
-    items.push(result);
-    return [200, result];
-  });
 
 
-});
-
-app.controller('mainCtrl', function ($http, $scope) {
+app.controller('editorCtrl', function ($scope, taskService) {
   
   $scope.todayDate = new Date();
   $scope.sortField = 'date';
 
-  $http.get('http://localhost:80/items')
-    .success(function (result) {
-      console.log('sucess', result);
-      $scope.items = result;
-    })
-    .error(function (result) {
-      console.log('error');
-    });
+  $scope.items = taskService.getAllItem;
 
   $scope.addItem = function (item, todayDate) {
     console.log(item, todayDate);
     var newitem = {
       name: item,
-      date: todayDate
-    }
-    $http.post('http://localhost:80/items', newitem)
-      .success(function (result) {
-        console.log('item successfully saved to backend');
-        $scope.items.push(newitem);
-        $scope.newitem = null;
-      })
-      .error(function (result) {
-        console.log('Error in item post');
-      });
+      date: todayDate}
+    $scope.items.push(newitem);
   };
 
   $scope.removeItem = function (item) {
-    $http.post('http://localhost:80/items', item)
-      .success(function (result) {
-        console.log('item successfully removed from backend');
-        var idx = $scope.items.indexOf(item);
-        $scope.items.splice(idx, 1);
-        })
-      .error(function (result) {
-        console.log('Error in item post');
-      });
+    var idx = $scope.items.indexOf(item);
+    $scope.items.splice(idx, 1);
   };
 
 });
+
+
+app.controller('previewCtrl', function ($scope, taskService) {
+  $scope.items = taskService.getAllItem;
+  $scope.hideMenu = false;
+
+  $scope.swapItems = function(item, direction){
+    var idx = $scope.items.indexOf(item);
+    // $scope.hideMenu = !$scope.hideMenu;
+    var newitem = {
+      name: item.name,
+      date: item.date}
+    
+    var swaps = function(item1, item2){
+      if((item2 !== undefined)){
+        newitem.name = item1.name; newitem.date = item1.date;
+        item1.name = item2.name; item1.date = item2.date;
+        item2.name = newitem.name; item2.date = newitem.date;
+      }else{
+        alert("Куда еще??");
+      }
+    }
+    
+    if(direction === "top"){
+      swaps($scope.items[idx], $scope.items[idx-1]);
+      console.log(idx);
+    }else{
+      swaps($scope.items[idx], $scope.items[++idx]);
+      console.log(idx);
+    }
+  }
+});
+
+app.service('taskService', function() {
+  return {
+      getAllItem: [
+        {
+          name: 'item 1',
+          date: '2019.12.21 18:46'
+        },
+        {
+          name: 'item 2',
+          date: '2018.12.21 18:46'
+        }
+      ]
+  }
+})
+
+
