@@ -7,7 +7,7 @@ app.config(function($stateProvider, $locationProvider, $urlRouterProvider) {
             templateUrl: 'editor.html'
         })
         .state('preview',{
-            url: 'preview',
+            url: '/preview',
             templateUrl: 'preview.html'
         })
 
@@ -65,22 +65,22 @@ app.service('taskService', function() {
       getAllItem: [
         {
           name: 'item 1',
-          date: new Date("2019-01-16 18:32"),
+          date: "2019-01-16T18:32",
           hide: true
         },
         {
           name: 'item 2',
-          date: new Date("2019-04-16 18:30"),
+          date: "2019-04-16T18:30",
           hide: true
         },
         {
           name: 'item 3',
-          date: new Date("2019-05-16 18:30"),
+          date: "2019-05-16T18:30",
           hide: true
         },
         {
           name: 'item 4',
-          date: new Date("2019-06-16 18:30"),
+          date: "2019-06-16T18:30",
           hide: true
         }
       ]

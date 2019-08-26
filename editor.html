@@ -2,7 +2,7 @@
     <input ng-model = "newItem" placeholder="Enter item name"> 
     <button class = "addButton" ng-click = 'addItem(newItem, todayDate)' ng-disabled = "!(newItem)"> Add </button> 
     <ul class="editorView"> 
-        <li ng-repeat = "item in items track by $index | orderBy: 'date':true">
+        <li ng-repeat = "item in items | orderBy: 'date':true track by $index" >
             <p> {{item.name}}</p> 
             <div style="float: right;"><a ng-click = 'addItem(item.name, todayDate)'>  <i class="glyphicon glyphicon-duplicate" ></i> </a>
             <a ng-click = 'removeItem($index)'> <i class="glyphicon glyphicon-trash" aria-hidden="true"></i> </a></div> 
