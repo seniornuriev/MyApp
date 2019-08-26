@@ -1,18 +1,19 @@
 var app = angular.module('app', ['ui.router']);
 
-app.config(function($stateProvider, $urlRouterProvider) {
-    'ui.router', 
+app.config(function($stateProvider, $locationProvider, $urlRouterProvider) {
     $stateProvider
         .state('editor',{
             url: '/',
             templateUrl: 'editor.html'
         })
         .state('preview',{
-            url: '/preview',
+            url: 'preview',
             templateUrl: 'preview.html'
         })
 
     $urlRouterProvider.otherwise('index.html');
+    $locationProvider.html5Mode({enabled: true,
+      requireBase: false});
 
 });
 
@@ -21,20 +22,19 @@ app.config(function($stateProvider, $urlRouterProvider) {
 app.controller('editorCtrl', function ($scope, taskService) {
   
   $scope.todayDate = new Date();
-  $scope.sortField = 'date';
-
   $scope.items = taskService.getAllItem;
 
   $scope.addItem = function (item, todayDate) {
     console.log(item, todayDate);
     var newitem = {
       name: item,
-      date: todayDate}
+      date: todayDate,
+      hide: true}
     $scope.items.push(newitem);
+    $scope.newItem = "";
   };
 
-  $scope.removeItem = function (item) {
-    var idx = $scope.items.indexOf(item);
+  $scope.removeItem = function (idx){
     $scope.items.splice(idx, 1);
   };
 
@@ -43,31 +43,19 @@ app.controller('editorCtrl', function ($scope, taskService) {
 
 app.controller('previewCtrl', function ($scope, taskService) {
   $scope.items = taskService.getAllItem;
-  $scope.hideMenu = false;
 
-  $scope.swapItems = function(item, direction){
-    var idx = $scope.items.indexOf(item);
-    // $scope.hideMenu = !$scope.hideMenu;
+  $scope.swapItems = function(item, idx, direction){
     var newitem = {
       name: item.name,
-      date: item.date}
-    
-    var swaps = function(item1, item2){
-      if((item2 !== undefined)){
-        newitem.name = item1.name; newitem.date = item1.date;
-        item1.name = item2.name; item1.date = item2.date;
-        item2.name = newitem.name; item2.date = newitem.date;
-      }else{
-        alert("Куда еще??");
-      }
+      date: item.date,
+      hide: true
     }
-    
     if(direction === "top"){
-      swaps($scope.items[idx], $scope.items[idx-1]);
-      console.log(idx);
-    }else{
-      swaps($scope.items[idx], $scope.items[++idx]);
-      console.log(idx);
+      $scope.items.splice(idx, 1);
+      $scope.items.unshift(newitem);
+    }else if(direction === "bottom"){
+      $scope.items.splice(idx, 1);
+      $scope.items[$scope.items.length] = newitem;
     }
   }
 });
@@ -77,11 +65,23 @@ app.service('taskService', function() {
       getAllItem: [
         {
           name: 'item 1',
-          date: '2019.12.21 18:46'
+          date: new Date("2019-01-16 18:32"),
+          hide: true
         },
         {
           name: 'item 2',
-          date: '2018.12.21 18:46'
+          date: new Date("2019-04-16 18:30"),
+          hide: true
+        },
+        {
+          name: 'item 3',
+          date: new Date("2019-05-16 18:30"),
+          hide: true
+        },
+        {
+          name: 'item 4',
+          date: new Date("2019-06-16 18:30"),
+          hide: true
         }
       ]
   }

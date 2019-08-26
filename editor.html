@@ -1,10 +1,12 @@
 <div ng-controller= "editorCtrl">  
-    <input  ng-model = "newItem" placeholder="Enter item name"> <button class = "addButton" ng-click = 'addItem(newItem, todayDate)'> Add </button>
+    <input ng-model = "newItem" placeholder="Enter item name"> 
+    <button class = "addButton" ng-click = 'addItem(newItem, todayDate)' ng-disabled = "!(newItem)"> Add </button> 
     <ul class="editorView"> 
-        <li ng-repeat = "item in items | orderBy:sortField">
+        <li ng-repeat = "item in items track by $index | orderBy: 'date':true">
             <p> {{item.name}}</p> 
             <div style="float: right;"><a ng-click = 'addItem(item.name, todayDate)'>  <i class="glyphicon glyphicon-duplicate" ></i> </a>
-            <a ng-click = 'removeItem(item)'> <i class="glyphicon glyphicon-trash" aria-hidden="true"></i> </a></div> 
+            <a ng-click = 'removeItem($index)'> <i class="glyphicon glyphicon-trash" aria-hidden="true"></i> </a></div> 
         </li>
+        <p class = "asd" ng-hide="items.length">No items</p>
     </ul>
 </div>  
