@@ -4,12 +4,17 @@ app.config(function($stateProvider, $locationProvider, $urlRouterProvider) {
     $stateProvider
         .state('editor',{
             url: '/',
-            templateUrl: 'editor.html'
+            template: '<editor></editor>'
         })
         .state('preview',{
             url: '/preview',
-            templateUrl: 'preview.html'
+            template: '<preview></preview>'
         })
+        .state('test',{
+          url: '/test',
+          template: '<editor></editor>'
+        })
+
 
     $urlRouterProvider.otherwise('index.html');
     $locationProvider.html5Mode({enabled: true,
@@ -17,70 +22,91 @@ app.config(function($stateProvider, $locationProvider, $urlRouterProvider) {
 
 });
 
+app.directive('editor', function () {
 
+  function controller(taskService) {
+    var vm = this;
+    vm.items = taskService.getAllItem;
 
-app.controller('editorCtrl', function ($scope, taskService) {
-  
-  $scope.todayDate = new Date();
-  $scope.items = taskService.getAllItem;
+    moment('ru');
+    vm.todayDate = moment();
+    vm.items = taskService.getAllItem;
 
-  $scope.addItem = function (item, todayDate) {
-    console.log(item, todayDate);
-    var newitem = {
-      name: item,
-      date: todayDate,
-      hide: true}
-    $scope.items.push(newitem);
-    $scope.newItem = "";
-  };
+    vm.addItem = function (item) {
+      console.log(item);
+      var newitem = {
+        name: item,
+        date: vm.todayDate.format('DD.MM.YY, hh:mm'),
+        hide: true
+      }
+      vm.items.push(newitem);
+      vm.newItem = "";
+    };
 
-  $scope.removeItem = function (idx){
-    $scope.items.splice(idx, 1);
-  };
-
-});
-
-
-app.controller('previewCtrl', function ($scope, taskService) {
-  $scope.items = taskService.getAllItem;
-
-  $scope.swapItems = function(item, idx, direction){
-    var newitem = {
-      name: item.name,
-      date: item.date,
-      hide: true
-    }
-    if(direction === "top"){
-      $scope.items.splice(idx, 1);
-      $scope.items.unshift(newitem);
-    }else if(direction === "bottom"){
-      $scope.items.splice(idx, 1);
-      $scope.items[$scope.items.length] = newitem;
-    }
+    vm.removeItem = function (index){
+      vm.items.splice(index, 1);
+    };
   }
-});
+
+  return {
+    restrict: 'E',
+    templateUrl: 'editor.html',
+    controller: controller,
+    controllerAs: 'ctrl',
+    scope: {}
+  }
+
+})
+
+app.directive('preview', function () {
+
+  function controller(taskService) {
+    var vm = this;
+    vm.items = taskService.getAllItem;
+
+    vm.swapToTop = function(index) {
+      var item = vm.items.splice(index, 1);
+      item[0].hide = true;
+      vm.items.unshift(item[0]);
+    };
+
+    vm.swapToBottom = function(index) {
+      var item = vm.items.splice(index, 1);
+      item[0].hide = true;
+      vm.items.push(item[0]);
+    };
+  }
+
+  return {
+    restrict: 'E',
+    templateUrl: 'preview.html',
+    controller: controller,
+    controllerAs: 'ctrl',
+    scope: {}
+  }
+})
 
 app.service('taskService', function() {
   return {
       getAllItem: [
         {
           name: 'item 1',
-          date: "2019-01-16T18:32",
+          date: moment([2011, 9, 29, 18, 13]),
           hide: true
         },
         {
           name: 'item 2',
-          date: "2019-04-16T18:30",
+          date: moment([2011, 8, 30, 18, 14]),
           hide: true
         },
         {
           name: 'item 3',
-          date: "2019-05-16T18:30",
+          date: moment([2011, 7, 27, 18, 15]),
           hide: true
         },
         {
           name: 'item 4',
-          date: "2019-06-16T18:30",
+          date: moment([2011, 6, 26, 18, 16]),
           hide: true
         }
       ]

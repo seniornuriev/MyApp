@@ -1,19 +1,25 @@
-<div ng-controller= "previewCtrl">  
-    <ul class="preView">
-        <table>
-            <tr>
-                <td>Name</td>
-                <td>Date</td>
-            </tr>
-        </table>
-        <li ng-repeat = "item in items track by $index">
-            <p> {{item.name + ' '+ item.number + ' '}}</p> 
-            <p style="flex-grow: 0;">{{item.date| date : "dd.MM.yy HH:mm"}} <a ng-click="item.hide = !item.hide"><i class="glyphicon glyphicon-option-vertical"></i></a> </p> 
-            <ul ng-hide ="item.hide" class="show">
-                <li> <a ng-click = 'swapItems(item, $index, "top")'> <i class=""></i> top </a></li>
-                <li> <a ng-click = 'swapItems(item, $index, "bottom")'> <i class=""></i> bottom </a></li>
-            </ul>
-        </li>
-        <p class = "asd" ng-hide="items.length">No items</p>
-    </ul>
-</div>  
+<ul class="preView">
+    <table>
+        <tr>
+            <td>Name</td>
+            <td>Date</td>
+        </tr>
+    </table>
+    <li ng-repeat = "item in ctrl.items track by $index">
+        <p> {{item.name + ' '+ item.number + ' '}}</p>
+        <p style="flex-grow: 0;">{{item.date.format('DD.MM.YY, hh:mm')}}
+            <a ng-click="item.hide = !item.hide">
+                <i class="fas fa-ellipsis-v"></i>
+            </a>
+        </p>
+        <ul ng-hide ="item.hide" class="show">
+            <li>
+                <a ng-click = 'ctrl.swapToTop($index)'> top </a>
+            </li>
+            <li>
+                <a ng-click = 'ctrl.swapToBottom($index)'> bottom </a>
+            </li>
+        </ul>
+    </li>
+    <p class = "asd" ng-hide="ctrl.items.length">No items</p>
+</ul>
