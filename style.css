@@ -1,0 +1,65 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+
+
+.container {
+    font-family: "Malgun Gothic";
+    background-color: floralwhite;
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-panel {
+    display: flex;
+    flex-direction: column;
+
+    text-align: center;
+
+    width: 320px;
+    height: 300px;
+
+    background-color: #fff;
+
+    padding: 50px;
+}
+
+.login-panel
+input,
+button
+{
+    padding: 1em;
+    margin: 0.5rem 0rem;
+}
+
+.login-panel .panel-title {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.login-panel .alert-danger {
+    color: red;
+}
+
+.login-panel .alert-success {
+    color: green;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-panel button{
+    font-weight: 700;
+
+    color: #d32f2f;
+    background-color: #fff;
+}
+
+
